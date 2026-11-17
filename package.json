@@ -1,0 +1,12 @@
+{
+  "name": "parkease-root",
+  "version": "1.0.0",
+  "description": "ParkEase - Smart Parking Management System (SEA Mini Project)",
+  "scripts": {
+    "backend": "cd backend && npm.cmd start",
+    "frontend": "cd frontend && npm.cmd run dev",
+    "seed": "cd backend && npm.cmd run seed",
+    "test": "cd backend && npm.cmd test"
+  }
+}
+

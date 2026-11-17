@@ -1,0 +1,149 @@
+-- =======================================================================
+-- ParkEase - Smart Parking Management System
+-- Database Seed Data (Version 1.0)
+-- Subject: Software Engineering and Architecture
+-- =======================================================================
+
+USE parkease_db;
+
+-- 1. Seed Users (Demo Accounts)
+-- Admin: admin@college.edu / Admin@123
+-- Faculty: faculty1@college.edu to faculty5@college.edu / Faculty@123
+INSERT INTO users (id, faculty_id, full_name, email, phone, department, password_hash, role, is_active)
+VALUES
+(1, 'ADM-001', 'Dr. Suresh Mehta (Admin)', 'admin@college.edu', '+91 98230 11223', 'Campus Administration', '$2a$10$rGZ22vK8YqR2Xf9b7HkWx.rJz5vX9O7W4WzJ8E9O0.7Q3E1R3X9W.', 'admin', 1),
+(2, 'FAC-CS-101', 'Dr. Aarav Sharma', 'faculty1@college.edu', '+91 98221 44556', 'Computer Science & Engineering', '$2a$10$tZ728sP4XqQ1Wf8b6GkVx.qIy4uW8N6V3VyI7D8N9.6P2D0Q2W8V.', 'faculty', 1),
+(3, 'FAC-EC-102', 'Prof. Priya Patel', 'faculty2@college.edu', '+91 98222 55667', 'Electronics & Communication', '$2a$10$tZ728sP4XqQ1Wf8b6GkVx.qIy4uW8N6V3VyI7D8N9.6P2D0Q2W8V.', 'faculty', 1),
+(4, 'FAC-ME-103', 'Dr. Vikram Malhotra', 'faculty3@college.edu', '+91 98223 66778', 'Mechanical Engineering', '$2a$10$tZ728sP4XqQ1Wf8b6GkVx.qIy4uW8N6V3VyI7D8N9.6P2D0Q2W8V.', 'faculty', 1),
+(5, 'FAC-CV-104', 'Dr. Ananya Roy', 'faculty4@college.edu', '+91 98224 77889', 'Civil Engineering', '$2a$10$tZ728sP4XqQ1Wf8b6GkVx.qIy4uW8N6V3VyI7D8N9.6P2D0Q2W8V.', 'faculty', 1),
+(6, 'FAC-MG-105', 'Prof. Rajesh Verma', 'faculty5@college.edu', '+91 98225 88990', 'School of Management', '$2a$10$tZ728sP4XqQ1Wf8b6GkVx.qIy4uW8N6V3VyI7D8N9.6P2D0Q2W8V.', 'faculty', 1)
+ON DUPLICATE KEY UPDATE full_name=VALUES(full_name);
+
+-- 2. Seed Vehicles
+INSERT INTO vehicles (id, user_id, vehicle_number, vehicle_type, vehicle_model, is_primary)
+VALUES
+(1, 2, 'MH-12-AB-4040', 'car', 'Honda City', 1),
+(2, 3, 'MH-12-EV-2024', 'ev_car', 'Tata Nexon EV', 1),
+(3, 4, 'MH-14-BT-9901', 'car', 'Hyundai Creta', 1),
+(4, 5, 'MH-12-ZZ-3344', 'motorcycle', 'Royal Enfield Classic 350', 1),
+(5, 6, 'MH-12-QQ-7711', 'car', 'Toyota Innova Crysta', 1)
+ON DUPLICATE KEY UPDATE vehicle_number=VALUES(vehicle_number);
+
+-- 3. Seed Parking Areas
+INSERT INTO parking_areas (id, name, code, description, floor, total_slots, is_active)
+VALUES
+(1, 'Main Academic Block (Area A)', 'AREA-A', 'Direct covered access to CS, IT & Central Administration Building', 'Ground Level - South Wing', 12, 1),
+(2, 'Tech & Engineering Annex (Area B)', 'AREA-B', 'Adjacent to Mechanical, Electronics, and Civil Engineering Labs', 'Level 1 - Open Canopy', 10, 1),
+(3, 'Executive & Research Wing (Area C)', 'AREA-C', 'Designated for Senior Faculty, Department Heads, and EV Charging Stations', 'Basement Level - Secured Access', 8, 1)
+ON DUPLICATE KEY UPDATE name=VALUES(name);
+
+-- 4. Seed Parking Slots (30 slots total)
+INSERT INTO parking_slots (id, slot_number, area_id, slot_type, status, is_active, notes)
+VALUES
+-- Area A (12 slots)
+(1, 'A-101', 1, 'vip_faculty', 'available', 1, 'Reserved for HOD Computer Science'),
+(2, 'A-102', 1, 'standard', 'available', 1, 'Near staircase 1'),
+(3, 'A-103', 1, 'standard', 'occupied', 1, 'Currently parked: MH-12-AB-4040'),
+(4, 'A-104', 1, 'standard', 'reserved', 1, 'Reserved for Afternoon Lecture'),
+(5, 'A-105', 1, 'ev_charging', 'available', 1, '7.4kW AC Fast Charger'),
+(6, 'A-106', 1, 'standard', 'available', 1, 'Standard car bay'),
+(7, 'A-107', 1, 'disabled', 'available', 1, 'Accessible ramp adjacent'),
+(8, 'A-108', 1, 'standard', 'occupied', 1, 'Occupied session #PS-108'),
+(9, 'A-109', 1, 'standard', 'available', 1, 'Near elevator bank'),
+(10, 'A-110', 1, 'standard', 'unavailable', 1, 'Underground sensor maintenance'),
+(11, 'A-111', 1, 'standard', 'available', 1, 'Wide clearance bay'),
+(12, 'A-112', 1, 'standard', 'available', 1, 'Near East Gate Exit'),
+
+-- Area B (10 slots)
+(13, 'B-201', 2, 'standard', 'available', 1, 'Near Tech workshop entrance'),
+(14, 'B-202', 2, 'standard', 'occupied', 1, 'Active parking session'),
+(15, 'B-203', 2, 'standard', 'available', 1, 'Standard 4-wheeler slot'),
+(16, 'B-204', 2, 'ev_charging', 'reserved', 1, 'Reserved for Prof. Priya Patel'),
+(17, 'B-205', 2, 'standard', 'available', 1, 'Shaded bay'),
+(18, 'B-206', 2, 'standard', 'available', 1, 'Solar canopy shelter'),
+(19, 'B-207', 2, 'standard', 'unavailable', 1, 'Floor repaint in progress'),
+(20, 'B-208', 2, 'standard', 'available', 1, 'Quick turnaround slot'),
+(21, 'B-209', 2, 'standard', 'available', 1, 'Opposite CAD Lab'),
+(22, 'B-210', 2, 'standard', 'occupied', 1, 'Active session'),
+
+-- Area C (8 slots)
+(23, 'C-301', 3, 'vip_faculty', 'reserved', 1, 'Dean of Academics bay'),
+(24, 'C-302', 3, 'ev_charging', 'available', 1, '22kW DC Dual Gun'),
+(25, 'C-303', 3, 'standard', 'available', 1, 'Executive conference bay'),
+(26, 'C-304', 3, 'standard', 'occupied', 1, 'Parked: MH-12-QQ-7711'),
+(27, 'C-305', 3, 'disabled', 'available', 1, 'ADA compliant wide berth'),
+(28, 'C-306', 3, 'standard', 'available', 1, 'Adjacent to elevator'),
+(29, 'C-307', 3, 'standard', 'reserved', 1, 'Scheduled allocation'),
+(30, 'C-308', 3, 'standard', 'unavailable', 1, 'Emergency exit clearance')
+ON DUPLICATE KEY UPDATE status=VALUES(status);
+
+-- 5. Seed Requirements (REQ-01 to REQ-32)
+INSERT INTO requirements (req_id, title, description, priority, module, implementation_status, linked_test_id, verification_status)
+VALUES
+('REQ-01', 'Faculty Registration', 'System shall allow faculty members to register with full name, faculty ID, department, email, phone, and password.', 'High', 'Authentication', 'Implemented', 'TC-01', 'Verified'),
+('REQ-02', 'Duplicate Credential Prevention', 'System shall reject registrations with duplicate email address or faculty ID.', 'High', 'Authentication', 'Implemented', 'TC-02', 'Verified'),
+('REQ-03', 'Secure Login & JWT Issuance', 'System shall authenticate faculty and admin users using bcrypt password hashing and JWT token issuance.', 'High', 'Authentication', 'Implemented', 'TC-03', 'Verified'),
+('REQ-04', 'Invalid Credential Handling', 'System shall display clear error messages for incorrect password or non-existent username without revealing stack traces.', 'Medium', 'Authentication', 'Implemented', 'TC-04', 'Verified'),
+('REQ-05', 'Role-Based Access Control (RBAC)', 'System shall restrict administrative routes and APIs to users with admin role only.', 'High', 'Security', 'Implemented', 'TC-05', 'Verified'),
+('REQ-06', 'Faculty Dashboard Overview', 'Faculty dashboard shall display active session, quick statistics, upcoming reservations, and vehicle details.', 'High', 'Faculty Portal', 'Implemented', 'TC-18', 'Verified'),
+('REQ-07', 'Parking Area Catalog', 'System shall display all parking areas with location floor, code, and total capacity.', 'High', 'Parking Management', 'Implemented', 'TC-15', 'Verified'),
+('REQ-08', 'Color-Coded Slot Grid', 'System shall display slots in a grid layout with colors: Green (Available), Red (Occupied), Blue (Reserved), Grey (Unavailable).', 'High', 'Parking Management', 'Implemented', 'TC-15', 'Verified'),
+('REQ-09', 'Filter Slots by Area and Type', 'System shall permit filtering slots by parking area, slot type (standard, EV, disabled, VIP), and status.', 'Medium', 'Parking Management', 'Implemented', 'TC-06', 'Verified'),
+('REQ-10', 'Slot Reservation Workflow', 'Faculty shall be able to select an available slot, choose date/time range, and confirm reservation.', 'High', 'Reservation', 'Implemented', 'TC-06', 'Verified'),
+('REQ-11', 'Occupied Slot Booking Rejection', 'System shall prevent users from selecting or reserving slots marked occupied or unavailable.', 'High', 'Reservation', 'Implemented', 'TC-07', 'Verified'),
+('REQ-12', 'Double Booking Prevention', 'System shall execute atomic concurrency checks to ensure a slot cannot have overlapping active reservations.', 'High', 'Reservation', 'Implemented', 'TC-08', 'Verified'),
+('REQ-13', 'Unique Booking ID Generation', 'System shall generate an alphanumeric unique booking reference ID (e.g., PE-YYYYMMDD-XXXX) for each reservation.', 'High', 'Reservation', 'Implemented', 'TC-10', 'Verified'),
+('REQ-14', 'QR Code Generation', 'System shall automatically generate a verifiable QR code containing booking token/ID upon confirmation.', 'High', 'Reservation', 'Implemented', 'TC-10', 'Verified'),
+('REQ-15', 'Booking Cancellation', 'Faculty shall be able to cancel pending/confirmed bookings prior to parking entry, releasing the slot.', 'Medium', 'Reservation', 'Implemented', 'TC-09', 'Verified'),
+('REQ-16', 'Camera QR Code Scanning', 'System shall support browser-based camera scanning of parking QR codes at entry and exit gates.', 'High', 'Gate Management', 'Implemented', 'TC-11', 'Verified'),
+('REQ-17', 'Manual Booking ID Gate Entry', 'System shall support manual alphanumeric booking ID verification for devices without camera access.', 'High', 'Gate Management', 'Implemented', 'TC-11', 'Verified'),
+('REQ-18', 'QR Verification & Timing Checks', 'System shall validate that booking is active, slot matches, and time is within permitted window before gate entry.', 'High', 'Gate Management', 'Implemented', 'TC-11', 'Verified'),
+('REQ-19', 'Invalid QR / Token Rejection', 'System shall reject tampered, cancelled, expired, or non-existent QR codes and display error reasons.', 'High', 'Gate Management', 'Implemented', 'TC-12', 'Verified'),
+('REQ-20', 'Vehicle Entry Recording', 'System shall log entry timestamp, create active parking session, and set slot status to Occupied (Red).', 'High', 'Parking Sessions', 'Implemented', 'TC-13', 'Verified'),
+('REQ-21', 'Vehicle Exit Recording', 'System shall record exit timestamp, close active parking session, and release slot status back to Available.', 'High', 'Parking Sessions', 'Implemented', 'TC-14', 'Verified'),
+('REQ-22', 'Real-Time Availability Updates', 'System shall broadcast status changes via WebSocket / polling so slot grids update without manual reload.', 'High', 'Real-Time Sync', 'Implemented', 'TC-15', 'Verified'),
+('REQ-23', 'In-App Notifications', 'System shall generate in-app notification alerts for booking, cancellation, allocation, entry, and exit.', 'Medium', 'Notifications', 'Implemented', 'TC-06', 'Verified'),
+('REQ-24', 'Faculty Profile & Vehicle Management', 'Faculty shall be able to update their phone, department, and add/edit registered vehicle numbers.', 'Medium', 'Faculty Portal', 'Implemented', 'TC-18', 'Verified'),
+('REQ-25', 'Admin Faculty Account Management', 'Administrator shall be able to list, search, filter, view parking history, and activate/deactivate faculty accounts.', 'High', 'Administration', 'Implemented', 'TC-18', 'Verified'),
+('REQ-26', 'Admin Slot & Area Configuration', 'Administrator shall be able to add new parking areas and slots, edit configurations, and disable slots safely.', 'High', 'Administration', 'Implemented', 'TC-16', 'Verified'),
+('REQ-27', 'Admin Direct Allocation Management', 'Administrator shall be able to allocate slots to faculty, modify allocations, and resolve conflicts.', 'High', 'Administration', 'Implemented', 'TC-17', 'Verified'),
+('REQ-28', 'Manual Occupancy Override', 'Administrator shall have ability to manually toggle slot occupancy for on-the-spot adjustments.', 'Medium', 'Administration', 'Implemented', 'TC-15', 'Verified'),
+('REQ-29', 'Interactive Analytics & Reports', 'System shall generate interactive charts for slot utilization %, daily booking volume, and peak hours.', 'High', 'Analytics', 'Implemented', 'TC-19', 'Verified'),
+('REQ-30', 'Audit Trail Logging', 'System shall record audit log entries with user ID, role, action, record ID, and timestamp for all critical operations.', 'High', 'Audit & Compliance', 'Implemented', 'TC-13', 'Verified'),
+('REQ-31', 'Software Quality & Testing Dashboard', 'System shall provide RTM, live test execution runner, test case results, and defect/issue tracking.', 'High', 'Software Engineering', 'Implemented', 'TC-01', 'Verified'),
+('REQ-32', 'System Health & Performance Monitoring', 'System shall monitor server uptime, database connection state, API request latency, and system error logs.', 'High', 'System Health', 'Implemented', 'TC-20', 'Verified')
+ON DUPLICATE KEY UPDATE title=VALUES(title);
+
+-- 6. Seed Test Cases (TC-01 to TC-20)
+INSERT INTO test_cases (tc_id, title, category, description, expected_result, actual_result, status)
+VALUES
+('TC-01', 'Faculty registration with valid details', 'Functional', 'Register a new faculty with valid name, unique faculty ID, email, and vehicle info.', 'User created successfully with HTTP 201 and JWT token generated.', 'Passed: User account created, vehicle registered, and token returned.', 'Passed'),
+('TC-02', 'Faculty registration with duplicate email', 'Validation', 'Attempt to register a faculty using an existing email address.', 'Request rejected with HTTP 400 and duplicate email error message.', 'Passed: Duplicate email identified and rejected with message.', 'Passed'),
+('TC-03', 'Login with valid credentials', 'Security', 'Authenticate an existing faculty user with valid email and password.', 'HTTP 200 returned with valid JWT token containing user id and role.', 'Passed: Password verified via bcrypt; JWT claims match role.', 'Passed'),
+('TC-04', 'Login with incorrect password', 'Security', 'Attempt authentication with valid email and an incorrect password string.', 'HTTP 401 Unauthorized with generic "Invalid email or password" response.', 'Passed: Access denied with HTTP 401 without stack trace exposure.', 'Passed'),
+('TC-05', 'Faculty accessing admin-only routes', 'Security', 'Faculty bearer token making GET/POST requests to /api/admin endpoints.', 'HTTP 403 Forbidden indicating administrative role required.', 'Passed: Role middleware intercepted request and denied access.', 'Passed'),
+('TC-06', 'Booking an available slot', 'Functional', 'Select an available slot and reserve for a future valid time duration.', 'Booking record created, unique booking ID issued, QR generated, slot marked reserved.', 'Passed: Booking persisted, QR data URL generated, slot state synchronized.', 'Passed'),
+('TC-07', 'Attempting to book an occupied slot', 'Functional', 'Send reservation request targeting a slot currently marked occupied.', 'Request rejected with HTTP 409 Conflict indicating slot unavailable.', 'Passed: Status checked prior to commit; conflict returned.', 'Passed'),
+('TC-08', 'Preventing double booking', 'Integration', 'Submit concurrent overlapping booking requests for the same slot time window.', 'First reservation succeeds, second overlapping attempt is rejected.', 'Passed: Overlap detection logic safely blocked second reservation.', 'Passed'),
+('TC-09', 'Cancelling an existing booking', 'Functional', 'Cancel a confirmed reservation before entry has taken place.', 'Booking status marked cancelled, slot restored to available, notification sent.', 'Passed: Slot freed, cancellation logged, notification dispatched.', 'Passed'),
+('TC-10', 'Generating a unique booking ID', 'Unit', 'Verify booking ID format conforms to PE-YYYYMMDD-[A-Z0-9]{4} pattern.', 'Unique 16-character alphanumeric reference returned for each call.', 'Passed: ID generator produces valid structured reference.', 'Passed'),
+('TC-11', 'Validating a valid QR code', 'Integration', 'Verify scanned QR code payload matching active booking at gate entry.', 'HTTP 200 with entry authorized, session created, slot set to occupied.', 'Passed: QR payload decoded, verified against active booking record.', 'Passed'),
+('TC-12', 'Rejecting an invalid QR code', 'Validation', 'Submit malformed, expired, or corrupted QR token payload at gate.', 'HTTP 400 or 404 with clear rejection reason logged.', 'Passed: Rejected with "Invalid or expired QR verification code".', 'Passed'),
+('TC-13', 'Recording vehicle entry', 'System', 'Verify entry timestamp, parking session creation, and audit logging.', 'Session status set to ongoing; audit log recorded with gate operator ID.', 'Passed: Parking session created, audit record written with timestamp.', 'Passed'),
+('TC-14', 'Recording vehicle exit', 'System', 'Record vehicle exit by scanning booking QR code or manual booking ID.', 'Session marked completed, exit timestamp recorded, slot marked available.', 'Passed: Session closed, duration calculated, slot freed.', 'Passed'),
+('TC-15', 'Updating slot availability', 'Functional', 'Admin updates slot status manually or via automated lifecycle event.', 'Database updated and change event emitted to all connected dashboards.', 'Passed: Slot status updated in DB and broadcasted via socket/event.', 'Passed'),
+('TC-16', 'Admin adding a new parking slot', 'Functional', 'Admin submits valid payload to create slot B-211 under Area B.', 'New slot created with unique constraint check and HTTP 201 response.', 'Passed: Slot created and total_slots count in Area incremented.', 'Passed'),
+('TC-17', 'Admin modifying parking allocation', 'Functional', 'Admin changes allocated slot from A-102 to A-106 for a faculty member.', 'Previous slot freed, new slot reserved, faculty notified.', 'Passed: Allocation transferred atomically with notification issued.', 'Passed'),
+('TC-18', 'Viewing parking history', 'Functional', 'Faculty retrieves past parking sessions and completed bookings.', 'HTTP 200 with chronological list of past sessions including durations.', 'Passed: Paginated history returned with entry/exit timestamps.', 'Passed'),
+('TC-19', 'Generating parking utilization reports', 'System', 'Admin requests aggregated utilization metrics, breakdown by area and day.', 'Aggregated percentage, peak hours, and area distribution returned.', 'Passed: Utilization formulas computed accurately; charts populated.', 'Passed'),
+('TC-20', 'Rejecting invalid input', 'Validation', 'Submit registration payload with missing fields and malformed email syntax.', 'HTTP 400 Bad Request with field-level validation errors array.', 'Passed: Validation schema caught missing fields and bad syntax.', 'Passed')
+ON DUPLICATE KEY UPDATE title=VALUES(title);
+
+-- 7. Seed Defects
+INSERT INTO defects (id, defect_code, title, description, severity, status, reported_by, assigned_to)
+VALUES
+(1, 'DEF-001', 'Mobile camera auto-focus delay on low-contrast QR codes', 'Under dim basement lighting in Area C, some older smartphone cameras took over 3 seconds to lock focus on displayed QR codes. Added manual booking ID fallback input.', 'Medium', 'Resolved', 'QA Testing Team', 'Frontend Lead'),
+(2, 'DEF-002', 'High-concurrency race condition on simultaneous slot selection', 'Two faculty members clicking the exact same millisecond could cause duplicate confirmation before locking. Solved with atomic check-and-reserve transaction.', 'High', 'Closed', 'Performance Audit', 'Backend Engineer'),
+(3, 'DEF-003', 'Add reminder notification 15 minutes before booking expiry', 'Faculty members requested an alert if their active parking session is nearing scheduled departure time to avoid overstaying.', 'Low', 'In Progress', 'Prof. Priya Patel', 'Notification Service')
+ON DUPLICATE KEY UPDATE title=VALUES(title);
+
